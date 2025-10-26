@@ -137,23 +137,28 @@ def air_is_grounded(): # (2)!
 
 ### Variables in Paths
 
-Variables can be added to URLs by marking them in curly braces like `{variable}` in the `application.get`, `application.post`, `application.put`, and `application.delete`  function decorators. The function receives the `{variable}` so long as it is the correct type specified by the function. 
+## Variables in URLs
+
+Variables can be added to URLs by marking them in curly braces like `{variable}` in the `application.get`, `application.post`, `application.put`, and `application.delete` function decorators. The function receives the `{variable}` so long as it is the correct type specified by the function.
+
+### Path Variables (Required Parameters in the URL Path)
+
+Path parameters are part of the URL path. You define them in the route decorator by enclosing the variable name in curly braces `{}`. These parameters are required and will be passed as function arguments.
 
 ```python hl_lines="5-6"
 import air
 
 app = air.Air()
 
-@app.get('/users/{username}') # (1)!
-def user_detail(username: str): # (2)!
+@app.get('/users/{username}')  # (1)!
+def user_detail(username: str):  # (2)!
     return air.layouts.mvpcss(
         air.Title(username),
         air.H1(username)
     )
-```
+We've specified a path variable called username in the decorator (/users/{username}).
 
-1. We've specified a variable called `username`.
-2. We have defined a function argument named `username`, which is identical to the variable specified in the decorator. We also specified the Python type in this definition.
+The function argument username matches the path variable name and will be populated with the value extracted from the URL (e.g., /users/Aang will pass "Aang" as the username argument).
 
 Try it out by going to <http://localhost:8000/users/Aang>
 
